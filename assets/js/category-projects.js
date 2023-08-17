@@ -49,11 +49,13 @@ const productList = new ProductService();
 
 function createCategory() {
     const categoryName = document.getElementById("categoryName").value 
-    /*console.log(categoryName);*/
+    console.log(categoryName);
 
     categoryList.addCategory(categoryName);
     
-    /*console.log(categoryList.categories);*/
+    console.log(categoryList.categories);
+    displayCategoriesAndProducts()
+    clearFormFields()
 }
 
 function createProduct() {
@@ -61,7 +63,8 @@ function createProduct() {
     const productPrice = "20";
     const productCategory = categoryList.categories[0];
     productList.addProduct(productName, productPrice, productCategory);
-    /*console.log(productList.products)*/ 
+    console.log(productList.products)
+    clearFormFields();
 }
 
 function clearFormFields() {
@@ -69,4 +72,38 @@ function clearFormFields() {
     document.getElementById("productName").value = "";
     document.getElementById("productPrice").value = "";
     document.getElementById("productCategory").value = "";
+}
+
+function displayCategoriesAndProducts() {
+    let content = "";
+    categoryList.categories.forEach((category) => {
+        content += `
+        <li>
+        <div class="categoriesList">
+        <span><b>Categoria:</b>${category.name}</span>
+        </div>
+        <div>
+        <button class="editButton">Editar</button>
+        <button class="deleteButton">Remover</button>
+        </div>
+        <ul class="productListByCategory">`;
+        category.products.forEach((product) => {
+            content += `
+            <li>
+            <div class="productList">
+            <span><b>Produto:</b> ${product.name} - <b>Preço:</b></span>
+            <div>
+            <button class="editButton">Editar</button> 
+            <button class="deleteButton">Remover</button> 
+            </div>
+            </div>
+            `;
+        });
+        content += `
+        </ul>
+        </li>
+        `
+    })
+document.getElementById("categoriesList").innerHTML = content;
+    
 }
